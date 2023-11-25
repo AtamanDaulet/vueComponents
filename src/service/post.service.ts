@@ -9,11 +9,16 @@ export const usePostService = (url: string) => {
     return result.data as Post[];
   }
 
+  const getPost = async (id: number): Promise<Post> => {
+    const result = await axios.get(`${url}/posts/${id}`)
+    return result.data as Post;
+  }
+  
   const deletePost = async (id: number) => {
     console.log('delete');
     return await axios.delete(`${url}/posts/${id}`);
   }
 
-  return { getAllPost, deletePost };
+  return { getAllPost, getPost, deletePost };
 
 }

@@ -26,7 +26,6 @@ interface Props {
 
 <script setup lang="ts">
 const props = defineProps<Props>();
-
 </script>
 
 <style scoped>
