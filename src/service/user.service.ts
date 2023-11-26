@@ -10,7 +10,12 @@ export const useUserService = (url: string) =>{
     return dataUsers.data as User[];
   }
 
-return {getAllUsers};
+  const getUser =async (id: number): Promise<User>=> {
+    const dataUsers = await axios.get(`${url}/users/${id}`);
+    return dataUsers.data as User;
+  }
+
+return {getAllUsers , getUser};
 }
 
 

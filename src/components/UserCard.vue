@@ -9,6 +9,7 @@
         website: {{ props.website }} <br>
         company: {{ props.company }}
     </div>   
+    <router-link :to = "{name:'user' , params : {id:props.id}}">{{ props.name }}</router-link>
   </div>
 </template>
 <script  lang="ts">
