@@ -8,7 +8,6 @@ export const usePostService = (url: string) => {
     const result = await axios.get(`${url}/posts`)
     return result.data as Post[];
   }
-
   
   const getPost = async (id:number): Promise<Post> => {
     const result = await axios.get(`${url}/posts/${id}`)
@@ -21,5 +20,4 @@ export const usePostService = (url: string) => {
   }
 
   return { getAllPost, getPost, deletePost };
-
 }

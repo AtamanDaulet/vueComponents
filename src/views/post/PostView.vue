@@ -1,13 +1,9 @@
 <template>
-  <div v-if="postInfo === null">
-      <h2>Пост не найден</h2>
-    </div>
-    <div v-else-if="!postInfo">Loading</div>
-    <post-card
-      v-else
-      :key="postId"
-      :post="postInfo"
-    ></post-card>
+  <div v-if="post === null">
+    <h2>Пост не найден</h2>
+  </div>
+  <div v-else-if="!post">Loading</div>
+  <post-card v-else :key="postId" :post="post"></post-card>
   <!-- <div v-if="post = id">
     <h3>post id does not exist</h3>
   </div>
@@ -17,30 +13,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed , onMounted} from 'vue';
-import {usePostService} from '@/service/post.service'
-import type {Post } from '@/types/posts'
-import PostCard from '@/components/PostCard.vue'
+import { computed, onMounted } from 'vue';
+import { storeToRefs } from "pinia";
+import PostCard from '@/components/PostCard.vue';
+import { usePostStore } from '@/stores/PostStore';
 
 const props = defineProps<{
   id: string;
 }>();
 
-const postId = computed<number>(()=> Number(props.id));
-const postService = usePostService("https://jsonplaceholder.typicode.com/")
-const postInfo = ref<Post| null>();
+const postId = computed<number>(() => Number(props.id));
+const  postStore = usePostStore();
+const  {post} = storeToRefs(postStore);
 
-onMounted(async () => {
-  if (postId.value > 0) {
-    try {
-      postInfo.value = await postService.getPost(postId.value);
-    } catch {
-      postInfo.value = null;
-    }
-  }
-});
+onMounted( () => postStore.loadPost(postId.value));
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
